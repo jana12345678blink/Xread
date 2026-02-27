@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add a Book - Bookify</title>
+    
+    <!-- استدعاء الخطوط -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- الألوان الأصلية --- */
+        :root {
+            --primary: #8B4513;       /* بني */
+            --accent: #c94b38;        /* أحمر محروق */
+            --bg-color: #fdefe2;      /* كريمي */
+            --text: #333;
+            --white: #ffffff;
+        }
+
+        /* --- عام --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* --- تصميم الناف بار (نفسه) --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background-color: var(--primary);
+            color: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links li a {
+            color: var(--white);
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .nav-links li a:hover {
+            color: #ffccbc;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            font-size: 14px;
+        }
+
+        .nav-btn.login {
+            background-color: var(--white);
+            color: var(--primary);
+        }
+
+        .nav-btn.signup {
+            border: 2px solid var(--white);
+            background: transparent;
+            color: var(--white);
+        }
+
+        /* --- تصميم وسيط الصفحة --- */
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .form-card {
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: #333 0px 0px 25px;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        .form-card h2 {
+            font-size: 32px;
+            color: var(--accent);
+            margin-bottom: 30px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .form-card h2::after {
+            content: '';
+            display: block;
+            width: 50%;
+            height: 3px;
+            background-color: var(--primary);
+            margin: 5px auto 0;
+            border-radius: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input, 
+        .form-group textarea, 
+        .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(139, 69, 19, 0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(201, 75, 56, 0.3);
+        }
+
+        .form-footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .form-footer a {
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Animation */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 15px;
+            }
+            .nav-links {
+                margin: 15px 0;
+                gap: 15px;
+            }
+            .form-card {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar (نفسه) -->
+    <nav class="navbar">
+        <div class="logo">Bookify</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="renting.html">Rent Books</a></li>
+            <li><a href="community.html">Community</a></li>
+            <li><a href="#" style="color: #ffccbc;">Add Book</a></li>
+        </ul>
+        <div class="nav-actions">
+            <button class="nav-btn login">Login</button>
+            <button class="nav-btn signup">Sign Up</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+        <div class="form-card">
+            <h2>Add a New Book</h2>
+            
+            <!-- Form (Action and Method removed as per request to remove PHP, kept for structure) -->
+            <form action="#" method="POST">
+                
+                <div class="form-group">
+                    <label for="bookcover">Image URL (Cover)</label>
+                    <input type="url" id="bookcover" name="bookcover" placeholder="https://example.com/image.jpg" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="bookname">Book Name</label>
+                    <input type="text" id="bookname" name="bookname" placeholder="Enter book title" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="bookcategory">Category</label>
+                    <input type="text" id="bookcategory" name="bookcategory" placeholder="e.g., Fiction, Science" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="bookauthor">Author Name</label>
+                    <input type="text" id="bookauthor" name="bookauthor" placeholder="Enter author name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="bookdescription">Description</label>
+                    <textarea id="bookdescription" name="bookdescription" rows="3" placeholder="Brief description of the book..." required></textarea>
+                </div>
+
+                <div class="form-group" style="display: flex; gap: 15px;">
+                    <div style="flex: 1;">
+                        <label for="bookduration">Duration (Days)</label>
+                        <input type="number" id="bookduration" name="bookduration" placeholder="14" required>
+                    </div>
+                    <div style="flex: 1;">
+                        <label for="bookprice">Price ($)</label>
+                        <input type="number" id="bookprice" name="bookprice" placeholder="10.00" step="0.01" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">Add Book</button>
+                
+                <div class="form-footer">
+                    <p>Go back to <a href="renting.html">Book List</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
