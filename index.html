@@ -11,12 +11,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
-        /* --- ألوانك الأصلية --- */
+        /* --- الألوان الأصلية --- */
         :root {
             --primary: #8B4513;       /* بني */
             --accent: #c94b38;        /* أحمر محروق */
-            --bg-color: #fdefe2;      /* كريمي (خلفية الصفحة) */
-            --text: #333;             /* رمادي غامق للنصوص */
+            --bg-color: #fdefe2;      /* كريمي */
+            --text: #333;
             --white: #ffffff;
         }
 
@@ -67,7 +67,6 @@
             margin-bottom: 50px;
         }
 
-        /* تطبيق لون العناوين الأصلي */
         .section-header h2 {
             font-size: 36px;
             color: var(--accent);
@@ -75,7 +74,7 @@
             display: inline-block;
             padding: 15px 30px;
             border-radius: 20px;
-            box-shadow: #333 0px 0px 20px; /* الظل الأصلي */
+            box-shadow: #333 0px 0px 20px;
             margin-bottom: 20px;
         }
 
@@ -97,58 +96,80 @@
         }
 
         .btn-primary:hover {
-            background-color: #6d360e; /* درجة أغمق قليلاً عند التحويم */
+            background-color: #6d360e;
             transform: translateY(-3px);
         }
 
-        /* --- تصميم الناف بار (بالألوان الأصلية) --- */
+        /* --- تصميم الناف بار (المضبوط والمتجاوب) --- */
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 5%;
-            background-color: var(--primary); /* لون الناف بار البني */
+            padding: 15px 5%;
+            background-color: var(--primary);
             color: var(--white);
             position: sticky;
             top: 0;
             z-index: 1000;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            height: 70px;
         }
 
         .logo {
             font-size: 24px;
             font-weight: bold;
             font-family: 'Playfair Display', serif;
+            z-index: 1001;
+            cursor: pointer;
         }
 
         .nav-links {
             display: flex;
-            gap: 25px;
+            gap: 30px;
+            align-items: center;
         }
 
         .nav-links li a {
             color: var(--white);
             font-size: 16px;
             transition: color 0.3s;
+            font-weight: 500;
+            position: relative;
         }
 
         .nav-links li a:hover {
-            color: #ffccbc; /* لون فاتح للتفاعل */
+            color: #ffccbc;
+        }
+
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s;
+        }
+        .nav-links li a:hover::after {
+            width: 100%;
         }
 
         .nav-actions {
             display: flex;
             gap: 10px;
+            z-index: 1001;
         }
 
         .nav-btn {
-            padding: 10px 20px;
+            padding: 8px 20px;
             border-radius: 20px;
             cursor: pointer;
             font-weight: bold;
             transition: all 0.3s;
             border: none;
             font-size: 14px;
+            white-space: nowrap;
         }
 
         .nav-btn.login {
@@ -162,13 +183,24 @@
             color: var(--white);
         }
 
-        .nav-btn.login:hover, .nav-btn.signup:hover {
-            opacity: 0.9;
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1002;
         }
 
-        /* --- Hero Section (تصميم وسط مع الخلفية الكريمية) --- */
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: var(--white);
+            transition: all 0.3s ease-in-out;
+            border-radius: 2px;
+        }
+
+        /* --- Hero Section --- */
         .hero {
-            /* خلفية الصورة الأصلية */
             background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://picsum.photos/seed/library_cover/1920/1080');
             background-size: cover;
             background-position: center;
@@ -180,7 +212,6 @@
         }
 
         .hero-content {
-            /* صندوق المحتوى باللون الكريمي والظل الأصلي */
             position: relative;
             background-color: var(--bg-color);
             width: 100%;
@@ -195,7 +226,7 @@
         .hero-content h1 {
             font-size: 48px;
             margin-bottom: 20px;
-            color: var(--accent); /* أحمر */
+            color: var(--accent);
         }
 
         .hero-content p {
@@ -204,7 +235,7 @@
             color: var(--accent);
         }
 
-        /* --- Stats Section (جديد بالألوان الأصلية) --- */
+        /* --- Stats Section --- */
         .stats {
             margin-top: -50px;
             position: relative;
@@ -232,12 +263,7 @@
             font-weight: 700;
         }
 
-        .stat-item p {
-            color: var(--text);
-            font-weight: 600;
-        }
-
-        /* --- Cards (Books, Categories, Steps) --- */
+        /* --- Cards --- */
         .grid-layout {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -246,7 +272,6 @@
         }
 
         .card {
-            /* تصميم الكارت الأصلي */
             background-color: var(--bg-color);
             padding: 10px 10px 20px 10px;
             border-radius: 20px;
@@ -287,7 +312,7 @@
             display: block;
         }
 
-        /* --- Testimonials (جديد) --- */
+        /* --- Testimonials --- */
         .testimonials-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -321,7 +346,7 @@
             border: 2px solid var(--accent);
         }
 
-        /* --- Newsletter (جديد) --- */
+        /* --- Newsletter --- */
         .newsletter {
             background-color: var(--white);
             padding: 60px 20px;
@@ -396,13 +421,6 @@
             color: var(--accent);
         }
 
-        .social-icons a {
-            display: inline-block;
-            margin-right: 15px;
-            color: white;
-            font-size: 18px;
-        }
-
         .footer-bottom {
             text-align: center;
             font-size: 14px;
@@ -411,35 +429,46 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                padding: 15px;
-            }
+            .hamburger { display: block; }
             .nav-links {
-                margin: 15px 0;
-                gap: 15px;
+                position: fixed; left: -100%; top: 0;
+                flex-direction: column; background-color: var(--primary);
+                width: 100%; height: 100vh; text-align: center;
+                transition: 0.4s; padding-top: 100px; gap: 25px;
             }
-            .hero-content h1 {
-                font-size: 32px;
-            }
-            .stats {
-                flex-direction: column;
-                align-items: center;
-            }
+            .nav-links.active { left: 0; }
+            .nav-actions { display: none; }
+            .mobile-only { display: block; margin-top: 20px; }
+            .hamburger.active .bar:nth-child(2) { opacity: 0; }
+            .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+            .hero-content h1 { font-size: 32px; }
+            .stats { flex-direction: column; align-items: center; }
         }
+        @media (min-width: 769px) { .mobile-only { display: none; } }
     </style>
 </head>
 <body>
 
-    <!-- Navbar (باللون البني الأصلي) -->
+    <!-- Navbar -->
     <nav class="navbar">
         <div class="logo">Bookify</div>
+        
+        <div class="hamburger">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+
         <ul class="nav-links">
-            <li><a href="./index.html">Home</a></li>
-            <li><a href="bookstore.html">Books</a></li>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#featured-books">Books</a></li>
             <li><a href="#categories">Categories</a></li>
             <li><a href="#testimonials">Reviews</a></li>
+            <li class="mobile-only"><button class="nav-btn login">Login</button></li>
+            <li class="mobile-only"><button class="nav-btn signup">Sign Up</button></li>
         </ul>
+
         <div class="nav-actions">
             <button class="nav-btn login">Login</button>
             <button class="nav-btn signup">Sign Up</button>
@@ -451,11 +480,11 @@
         <div class="hero-content">
             <h1>Rent Your Favorite Books Easily!</h1>
             <p>Discover a wide range of books and rent them in simple steps.</p>
-            <button class="btn btn-primary"><a href="renting.html" style="color: white; text-decoration: none;">Start Renting</a></button>
+            <button class="btn btn-primary"><a href="#featured-books" style="color: white; text-decoration: none;">Start Renting</a></button>
         </div>
     </section>
 
-    <!-- Stats Section (جديد) -->
+    <!-- Stats Section -->
     <div class="container">
         <section class="stats">
             <div class="stat-item">
@@ -561,7 +590,7 @@
         </div>
     </section>
 
-    <!-- Testimonials (جديد) -->
+    <!-- Testimonials -->
     <section id="testimonials" class="section-padding">
         <div class="container">
             <div class="section-header">
@@ -602,7 +631,7 @@
         </div>
     </section>
 
-    <!-- Newsletter (جديد) -->
+    <!-- Newsletter -->
     <div class="container">
         <section class="newsletter">
             <h2>Stay Updated</h2>
@@ -622,7 +651,7 @@
                     <h3>Quick Links</h3>
                     <ul>
                         <li><a href="#hero">Home</a></li>
-                        <li><a href="bookstore.html">Available Books</a></li>
+                        <li><a href="#featured-books">Available Books</a></li>
                         <li><a href="#">Contact Us</a></li>
                     </ul>
                 </div>
@@ -646,7 +675,22 @@
             </div>
         </div>
     </footer>
+    
+    <!-- سكريبت المنيو -->
+    <script>
+        const hamburger = document.querySelector(".hamburger");
+        const navLinks = document.querySelector(".nav-links");
+
+        hamburger.addEventListener("click", () => {
+            navLinks.classList.toggle("active");
+            hamburger.classList.toggle("active");
+        });
+
+        document.querySelectorAll(".nav-links li a, .nav-links li button").forEach(n => n.addEventListener("click", () => {
+            navLinks.classList.remove("active");
+            hamburger.classList.remove("active");
+        }));
+    </script>
 
 </body>
 </html>
-
