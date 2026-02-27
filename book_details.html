@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Details - Bookify</title>
+    
+    <!-- استدعاء الخطوط -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- أيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <style>
+        /* --- الألوان --- */
+        :root {
+            --primary: #8B4513;       
+            --accent: #c94b38;        
+            --bg-color: #fdefe2;      
+            --text: #333;
+            --white: #ffffff;
+        }
+
+        /* --- إعدادات عامة --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* =========================================
+           START: Navbar Design (المضبوط)
+           ========================================= */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background-color: var(--primary);
+            color: var(--white);
+            position: sticky; /* ثبات في الأعلى */
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            height: 70px; /* ارتفاع ثابت */
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            font-family: 'Playfair Display', serif;
+            z-index: 1001; /* ليكون فوق القائمة المنسدلة */
+            cursor: pointer;
+        }
+
+        /* الروابط */
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links li a {
+            color: var(--white);
+            font-size: 16px;
+            transition: color 0.3s;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .nav-links li a:hover {
+            color: #ffccbc;
+        }
+
+        /* تأثير خط تحت الرابط عند التحويم */
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s;
+        }
+        .nav-links li a:hover::after {
+            width: 100%;
+        }
+
+        /* أزرار الدخول */
+        .nav-actions {
+            display: flex;
+            gap: 10px;
+            z-index: 1001;
+        }
+
+        .nav-btn {
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .nav-btn.login {
+            background-color: var(--white);
+            color: var(--primary);
+        }
+
+        .nav-btn.signup {
+            border: 2px solid var(--white);
+            background: transparent;
+            color: var(--white);
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        /* زر الهمبرغر (للموبايل) */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1002; /* الأعلى */
+        }
+
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: var(--white);
+            transition: all 0.3s ease-in-out;
+            border-radius: 2px;
+        }
+
+        /* =========================================
+           Media Queries (تجاوب الموبايل)
+           ========================================= */
+        @media (max-width: 768px) {
+            /* إظهار زر الهمبرغر */
+            .hamburger {
+                display: block;
+            }
+
+            /* إخفاء الروابط والأزرار الأساسية */
+            .nav-links {
+                position: fixed;
+                left: -100%; /* مخفية خارج الشاشة */
+                top: 0;
+                flex-direction: column;
+                background-color: var(--primary);
+                width: 100%; /* عرض كامل */
+                height: 100vh; /* ارتفاع كامل */
+                text-align: center;
+                transition: 0.4s;
+                padding-top: 100px; /* مسافة للأعلى */
+                box-shadow: 0 10px 27px rgba(0,0,0,0.05);
+                gap: 25px;
+            }
+
+            /* إظهار القائمة عند التفعيل */
+            .nav-links.active {
+                left: 0;
+            }
+
+            /* إخفاء أزرار الدخول الجانبية في الشاشة الكبيرة */
+            .nav-actions {
+                display: none;
+            }
+
+            /* تحويل أيقونة الهمبرغر إلى X */
+            .hamburger.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+            .hamburger.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            .hamburger.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+
+            /* إظهار أزرار الدخول داخل القائمة المنسدلة */
+            .mobile-only {
+                display: block;
+                margin-top: 20px;
+            }
+        }
+        
+        /* إخفاء عناصر الموبايل في الشاشات الكبيرة */
+        @media (min-width: 769px) {
+            .mobile-only {
+                display: none;
+            }
+        }
+        /* =========================================
+           END: Navbar Design
+           ========================================= */
+
+        /* --- باقي تصميم الصفحة (للمحافظة على الشكل) --- */
+        .section-header {
+            text-align: center;
+            margin: 50px 0 30px;
+        }
+        .section-header h1 {
+            font-size: 32px;
+            color: var(--accent);
+            background-color: var(--bg-color);
+            display: inline-block;
+            padding: 10px 30px;
+            border-radius: 20px;
+            box-shadow: #333 0px 0px 20px;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .book-image-container {
+            background-color: var(--white);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: #333 0px 0px 15px;
+            text-align: center;
+            height: fit-content;
+        }
+        .book-image-container img {
+            width: 100%;
+            max-width: 350px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .book-info-card {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: #333 0px 0px 15px;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .info-label {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .description-section {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: #333 0px 0px 15px;
+            margin-bottom: 40px;
+        }
+        .description-section h2 {
+            color: var(--accent);
+            margin-bottom: 20px;
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+        }
+
+        .purchase-section {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: #333 0px 0px 15px;
+            max-width: 800px;
+            margin: 0 auto 60px;
+            text-align: center;
+        }
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 0 auto 20px;
+            width: fit-content;
+        }
+        .qty-btn {
+            background-color: var(--bg-color);
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            color: var(--primary);
+        }
+        .qty-input {
+            width: 50px;
+            text-align: center;
+            border: none;
+            font-weight: bold;
+            outline: none;
+        }
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        .btn-action {
+            padding: 12px 25px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Poppins', sans-serif;
+        }
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: var(--accent);
+        }
+        .btn-secondary {
+            background-color: var(--bg-color);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+        .btn-secondary:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 40px 0 20px;
+            text-align: center;
+            margin-top: auto;
+        }
+        @media (max-width: 768px) {
+            .details-grid { grid-template-columns: 1fr; }
+            .action-buttons { flex-direction: column; }
+            .btn-primary { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar (مضبوط ومتجاوب) -->
+    <nav class="navbar">
+        <!-- اللوجو -->
+        <div class="logo">Bookify</div>
+        
+        <!-- زر القائمة للموبايل -->
+        <div class="hamburger">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+
+        <!-- الروابط -->
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="renting.html">Rent Books</a></li>
+            <li><a href="buying.html">Buy Books</a></li>
+            <li><a href="community.html">Community</a></li>
+            
+            <!-- هذه الأزرار تظهر فقط داخل القائمة في الموبايل -->
+            <li class="mobile-only">
+                <button class="nav-btn login" style="width: 100%;">Login</button>
+            </li>
+            <li class="mobile-only">
+                <button class="nav-btn signup" style="width: 100%;">Sign Up</button>
+            </li>
+        </ul>
+
+        <!-- الأزرار الجانبية (تظهر في الشاشات الكبيرة فقط) -->
+        <div class="nav-actions">
+            <button class="nav-btn login">Login</button>
+            <button class="nav-btn signup">Sign Up</button>
+        </div>
+    </nav>
+
+    <!-- باقي محتوى الصفحة -->
+    <div class="container">
+        <div class="section-header">
+            <h1>Book Details</h1>
+        </div>
+
+        <div class="details-grid">
+            <div class="book-image-container">
+                <img src="https://picsum.photos/seed/book_detail/400/600" alt="Book Cover">
+            </div>
+
+            <div class="book-info-card">
+                <div class="info-row">
+                    <span class="info-label">Author:</span>
+                    <span>Juan Gómez Jurado</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Pages:</span>
+                    <span>518</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Publisher:</span>
+                    <span>House of Books Publishing</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Price:</span>
+                    <span style="color: var(--primary); font-weight: bold;">$15.99</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="description-section">
+            <h2>Description</h2>
+            <p>El Paciente is a thriller novel by Juan Gómez Jurado. The book was first published in 2014 and has since been translated into multiple languages. The story follows the life of a psychiatrist named Sonia Bonet who is accused of murdering her husband.</p>
+        </div>
+
+        <div class="purchase-section">
+            <div class="qty-controls">
+                <button class="qty-btn" onclick="document.getElementById('q').value--">-</button>
+                <input type="number" id="q" value="1" min="1" class="qty-input">
+                <button class="qty-btn" onclick="document.getElementById('q').value++">+</button>
+            </div>
+            <div class="action-buttons">
+                <button class="btn-action btn-secondary"><i class="fa-regular fa-heart"></i> Like</button>
+                <button class="btn-action btn-primary"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Bookify. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- سكريبت لتشغيل القائمة -->
+    <script>
+        const hamburger = document.querySelector(".hamburger");
+        const navLinks = document.querySelector(".nav-links");
+
+        hamburger.addEventListener("click", () => {
+            navLinks.classList.toggle("active");
+            hamburger.classList.toggle("active");
+        });
+
+        // إغلاق القائمة عند الضغط على أي رابط
+        document.querySelectorAll(".nav-links li a, .nav-links li button").forEach(n => n.addEventListener("click", () => {
+            navLinks.classList.remove("active");
+            hamburger.classList.remove("active");
+        }));
+    </script>
+
+</body>
+</html>
