@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Rental Page</title>
+    
+    <!-- استدعاء خطوط جوجل -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- أيقونات FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <style>
+        /* --- الألوان الأصلية من الصفحة الرئيسية --- */
+        :root {
+            --primary: #8B4513;       /* بني */
+            --accent: #c94b38;        /* أحمر محروق */
+            --bg-color: #fdefe2;      /* كريمي */
+            --text: #333;
+            --white: #ffffff;
+        }
+
+        /* --- إعدادات عامة --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- تصميم الناف بار (نفس التصميم السابق) --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background-color: var(--primary);
+            color: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links li a {
+            color: var(--white);
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .nav-links li a:hover {
+            color: #ffccbc;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            font-size: 14px;
+        }
+
+        .nav-btn.login {
+            background-color: var(--white);
+            color: var(--primary);
+        }
+
+        .nav-btn.signup {
+            border: 2px solid var(--white);
+            background: transparent;
+            color: var(--white);
+        }
+
+        /* --- قسم العنوان --- */
+        .page-header {
+            text-align: center;
+            margin: 60px 0 40px;
+        }
+
+        .page-header h2 {
+            font-size: 36px;
+            color: var(--accent);
+            background-color: var(--bg-color);
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 20px;
+            box-shadow: #333 0px 0px 20px;
+        }
+
+        /* --- شبكة الكتب --- */
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            justify-content: center;
+            padding-bottom: 60px;
+        }
+
+        /* --- كرت الكتاب (Card Design) --- */
+        .book-card {
+            background-color: var(--bg-color);
+            padding: 10px 10px 20px 10px;
+            border-radius: 20px;
+            box-shadow: #333 0px 0px 20px;
+            position: relative;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .book-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .book-card img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        .book-card h3 {
+            color: var(--accent);
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .book-details p {
+            font-size: 15px;
+            color: var(--text);
+            margin-bottom: 5px;
+        }
+
+        .book-details strong {
+            color: var(--primary);
+        }
+
+        .price-tag {
+            display: block;
+            margin: 15px 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        /* --- الأزرار داخل الكرت --- */
+        .card-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .rent-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .rent-btn:hover {
+            background-color: #6d360e;
+        }
+
+        .fav-btn {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fav-btn:hover {
+            background-color: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        /* --- زر إضافة كتاب (في الأسفل) --- */
+        .add-book-section {
+            text-align: center;
+            padding: 40px 0 80px;
+        }
+
+        .add-btn-large {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px 50px;
+            font-size: 20px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(139, 69, 19, 0.4);
+            transition: transform 0.3s, background 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .add-btn-large:hover {
+            background-color: var(--accent);
+            transform: scale(1.05);
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 40px 0 20px;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .footer-content h3 {
+            color: var(--white);
+            margin-bottom: 15px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 15px;
+            }
+            .nav-links {
+                margin: 15px 0;
+                gap: 15px;
+                font-size: 14px;
+            }
+            .books-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar (نفس تصميم الصفحة الرئيسية) -->
+    <nav class="navbar">
+        <div class="logo">Bookify</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#" style="color: #ffccbc;">Rent Books</a></li>
+            <li><a href="index.html#categories">Categories</a></li>
+            <li><a href="index.html#how-it-works">How It Works</a></li>
+        </ul>
+        <div class="nav-actions">
+            <button class="nav-btn login">Login</button>
+            <button class="nav-btn signup">Sign Up</button>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="container">
+        <div class="page-header">
+            <h2>Rent Your Favorite Books</h2>
+        </div>
+    </div>
+
+    <!-- Books Grid (بدلاً من PHP Loop وضعت بيانات ثابتة للمعاينة) -->
+    <div class="container">
+        <div class="books-grid">
+            
+            <!-- Book Card 1 -->
+            <div class="book-card">
+                <img src="https://picsum.photos/seed/bookA/300/450" alt="Book Cover">
+                <div class="book-details">
+                    <h3>The Silent Patient</h3>
+                    <p><strong>Category:</strong> Thriller</p>
+                    <p><strong>Author:</strong> Alex Michaelides</p>
+                    <p><strong>Duration:</strong> 14 Days</p>
+                    <span class="price-tag">Price: $12.00</span>
+                </div>
+                <div class="card-actions">
+                    <a href="#" class="rent-btn">Rent Now</a>
+                    <button class="fav-btn" title="Add to Wishlist">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Book Card 2 -->
+            <div class="book-card">
+                <img src="https://picsum.photos/seed/bookB/300/450" alt="Book Cover">
+                <div class="book-details">
+                    <h3>Atomic Habits</h3>
+                    <p><strong>Category:</strong> Self-Help</p>
+                    <p><strong>Author:</strong> James Clear</p>
+                    <p><strong>Duration:</strong> 21 Days</p>
+                    <span class="price-tag">Price: $10.00</span>
+                </div>
+                <div class="card-actions">
+                    <a href="#" class="rent-btn">Rent Now</a>
+                    <button class="fav-btn" title="Add to Wishlist">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Book Card 3 -->
+            <div class="book-card">
+                <img src="https://picsum.photos/seed/bookC/300/450" alt="Book Cover">
+                <div class="book-details">
+                    <h3>Dune</h3>
+                    <p><strong>Category:</strong> Sci-Fi</p>
+                    <p><strong>Author:</strong> Frank Herbert</p>
+                    <p><strong>Duration:</strong> 30 Days</p>
+                    <span class="price-tag">Price: $15.00</span>
+                </div>
+                <div class="card-actions">
+                    <a href="#" class="rent-btn">Rent Now</a>
+                    <button class="fav-btn" title="Add to Wishlist">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Book Card 4 -->
+            <div class="book-card">
+                <img src="https://picsum.photos/seed/bookD/300/450" alt="Book Cover">
+                <div class="book-details">
+                    <h3>Project Hail Mary</h3>
+                    <p><strong>Category:</strong> Sci-Fi</p>
+                    <p><strong>Author:</strong> Andy Weir</p>
+                    <p><strong>Duration:</strong> 14 Days</p>
+                    <span class="price-tag">Price: $14.00</span>
+                </div>
+                <div class="card-actions">
+                    <a href="#" class="rent-btn">Rent Now</a>
+                    <button class="fav-btn" title="Add to Wishlist">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Add Book Button Section -->
+    <div class="add-book-section">
+        <!-- هذا الرابط يؤدي لصفحة إضافة الكتاب كما كان في كودك -->
+        <a href="./add.php">
+            <button class="add-btn-large">Add a Book <i class="fa-solid fa-plus"></i></button>
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <h3>Bookify Rental Service</h3>
+            <p>&copy; 2023 Bookify. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
