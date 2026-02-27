@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Bookify</title>
+    
+    <!-- استدعاء الخطوط -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- أيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <style>
+        /* --- الألوان --- */
+        :root {
+            --primary: #8B4513;       
+            --accent: #c94b38;        
+            --bg-color: #fdefe2;      
+            --text: #333;
+            --white: #ffffff;
+        }
+
+        /* --- إعدادات عامة --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Navbar (النسخة المضبوطة) --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background-color: var(--primary);
+            color: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            font-family: 'Playfair Display', serif;
+            z-index: 1001;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links li a {
+            color: var(--white);
+            font-size: 16px;
+            transition: color 0.3s;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .nav-links li a:hover {
+            color: #ffccbc;
+        }
+
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s;
+        }
+        .nav-links li a:hover::after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 10px;
+            z-index: 1001;
+        }
+
+        .nav-btn {
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .nav-btn.login {
+            background-color: var(--white);
+            color: var(--primary);
+        }
+
+        .nav-btn.signup {
+            border: 2px solid var(--white);
+            background: transparent;
+            color: var(--white);
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1002;
+        }
+
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: var(--white);
+            transition: all 0.3s ease-in-out;
+            border-radius: 2px;
+        }
+
+        /* --- Settings Layout --- */
+        .section-header {
+            text-align: center;
+            margin: 50px 0 30px;
+        }
+
+        .section-header h1 {
+            font-size: 32px;
+            color: var(--accent);
+            background-color: var(--bg-color);
+            display: inline-block;
+            padding: 10px 30px;
+            border-radius: 20px;
+            box-shadow: #333 0px 0px 20px;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr; /* صورة أضيق، بيانات أعرض */
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        /* بطاقة الصورة الشخصية */
+        .profile-card {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: #333 0px 0px 15px;
+            text-align: center;
+            height: fit-content;
+        }
+
+        .profile-img-container {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid var(--primary);
+            position: relative;
+        }
+
+        .profile-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .profile-role {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .upload-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        .upload-btn:hover {
+            background-color: var(--accent);
+        }
+
+        /* بطاقة البيانات */
+        .details-card {
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: #333 0px 0px 15px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 15px;
+            transition: border-color 0.3s;
+            background-color: #fafafa;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: var(--white);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .save-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: background 0.3s, transform 0.2s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .save-btn:hover {
+            background-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 40px 0 20px;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+            .nav-links {
+                position: fixed;
+                left: -100%;
+                top: 0;
+                flex-direction: column;
+                background-color: var(--primary);
+                width: 100%;
+                height: 100vh;
+                text-align: center;
+                transition: 0.4s;
+                padding-top: 100px;
+                gap: 25px;
+            }
+            .nav-links.active {
+                left: 0;
+            }
+            .nav-actions {
+                display: none;
+            }
+            .mobile-only {
+                display: block;
+                margin-top: 20px;
+            }
+            .hamburger.active .bar:nth-child(2) { opacity: 0; }
+            .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+            .settings-grid {
+                grid-template-columns: 1fr; /* عمود واحد في الموبايل */
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (min-width: 769px) {
+            .mobile-only { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">Bookify</div>
+        
+        <div class="hamburger">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="renting.html">Rent Books</a></li>
+            <li><a href="buying.html">Buy Books</a></li>
+            <li><a href="community.html">Community</a></li>
+            <li class="mobile-only"><button class="nav-btn login">Login</button></li>
+            <li class="mobile-only"><button class="nav-btn signup">Sign Up</button></li>
+        </ul>
+
+        <div class="nav-actions">
+            <button class="nav-btn login">Login</button>
+            <button class="nav-btn signup">Sign Up</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="section-header">
+            <h1>Settings</h1>
+        </div>
+
+        <div class="settings-grid">
+            
+            <!-- Left Column: Profile Image -->
+            <div class="profile-card">
+                <div class="profile-img-container">
+                    <!-- يمكنك وضع الصورة الخاصة بك هنا ./download.png -->
+                    <img src="https://ui-avatars.com/api/?name=Juan+Gomez&background=8B4513&color=fff&size=256" alt="Profile Image">
+                </div>
+                <h2 class="profile-name">Juan Gómez</h2>
+                <p class="profile-role">Book Enthusiast</p>
+                <button class="upload-btn"><i class="fa-solid fa-camera"></i> Change Photo</button>
+            </div>
+
+            <!-- Right Column: Form Details -->
+            <div class="details-card">
+                <form action="#" method="POST">
+                    
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" value="Juan Gómez Jurado">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" value="juan_reader">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" value="juan.gomez@example.com">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" value="********">
+                        </div>
+                        <div class="form-group">
+                            <label for="dob">Date of Birth</label>
+                            <input type="date" id="dob" value="1995-05-15">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" id="address" value="JimCamp Branch, Shiraz Branch, Loran">
+                    </div>
+
+                    <div style="text-align: right;">
+                        <button type="submit" class="save-btn">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Bookify. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Script for Mobile Menu -->
+    <script>
+        const hamburger = document.querySelector(".hamburger");
+        const navLinks = document.querySelector(".nav-links");
+
+        hamburger.addEventListener("click", () => {
+            navLinks.classList.toggle("active");
+            hamburger.classList.toggle("active");
+        });
+
+        document.querySelectorAll(".nav-links li a, .nav-links li button").forEach(n => n.addEventListener("click", () => {
+            navLinks.classList.remove("active");
+            hamburger.classList.remove("active");
+        }));
+    </script>
+
+</body>
+</html>
