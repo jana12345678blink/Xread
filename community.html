@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Page</title>
+    
+    <!-- استدعاء الخطوط -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- أيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <style>
+        /* --- الألوان الأصلية --- */
+        :root {
+            --primary: #8B4513;       /* بني */
+            --accent: #c94b38;        /* أحمر محروق */
+            --bg-color: #fdefe2;      /* كريمي */
+            --text: #333;
+            --white: #ffffff;
+        }
+
+        /* --- عام --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* --- تصميم الناف بار (نفسه) --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background-color: var(--primary);
+            color: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links li a {
+            color: var(--white);
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .nav-links li a:hover {
+            color: #ffccbc;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            font-size: 14px;
+        }
+
+        .nav-btn.login {
+            background-color: var(--white);
+            color: var(--primary);
+        }
+
+        .nav-btn.signup {
+            border: 2px solid var(--white);
+            background: transparent;
+            color: var(--white);
+        }
+
+        /* --- تصميم المحتوى الرئيسي (Community Container) --- */
+        .main-wrapper {
+            flex: 1;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .community-container {
+            width: 100%;
+            max-width: 900px;
+            background-color: var(--white);
+            border-radius: 20px;
+            box-shadow: #333 0px 0px 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page-header {
+            text-align: center;
+            padding: 30px 20px 10px;
+        }
+
+        /* تطبيق نفس تصميم العناوين */
+        .page-header h2 {
+            font-size: 32px;
+            color: var(--accent);
+            background-color: var(--bg-color);
+            display: inline-block;
+            padding: 10px 30px;
+            border-radius: 20px;
+            box-shadow: #333 0px 0px 15px;
+        }
+
+        /* --- قسم الدوائر (Stories/Users) --- */
+        .notes-section {
+            display: flex;
+            justify-content: flex-start;
+            padding: 20px 30px;
+            gap: 20px;
+            overflow-x: auto;
+            border-bottom: 1px solid #eee;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) #f0f0f0;
+        }
+
+        .notes-section::-webkit-scrollbar {
+            height: 6px;
+        }
+        .notes-section::-webkit-scrollbar-thumb {
+            background-color: var(--primary);
+            border-radius: 10px;
+        }
+
+        .note {
+            flex: 0 0 auto;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .note:hover {
+            transform: translateY(-5px);
+        }
+
+        .note img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+            padding: 2px;
+            background-color: var(--bg-color);
+        }
+
+        .note .name {
+            margin-top: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        /* --- قائمة المحادثات --- */
+        .chat-list {
+            flex: 1;
+            overflow-y: auto;
+            background-color: var(--bg-color); /* خلفية القائمة كريمية */
+        }
+
+        .chat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: background 0.3s;
+            position: relative;
+        }
+
+        .chat-item:hover {
+            background-color: rgba(139, 69, 19, 0.05); /* لون بني شفاف جداً */
+        }
+
+        .chat-left {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-item .name {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .chat-item .preview {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .chat-right {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .chat-item .time {
+            color: #888;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        /* شارة الرسائل الجديدة */
+        .chat-item .new-messages {
+            background-color: var(--accent); /* أحمر */
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(201, 75, 56, 0.3);
+        }
+
+        /* أيقونة الحالة (Online) */
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 15px;
+            }
+            .nav-links {
+                margin: 15px 0;
+            }
+            .chat-item {
+                padding: 15px 20px;
+            }
+            .chat-item .name {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar (نفسه) -->
+    <nav class="navbar">
+        <div class="logo">Bookify</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="renting.html">Rent Books</a></li>
+            <li><a href="#" style="color: #ffccbc;">Community</a></li>
+            <li><a href="index.html#how-it-works">How It Works</a></li>
+        </ul>
+        <div class="nav-actions">
+            <button class="nav-btn login">Login</button>
+            <button class="nav-btn signup">Sign Up</button>
+        </div>
+    </nav>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <div class="community-container">
+            <div class="page-header">
+                <h2>Community Page</h2>
+            </div>
+            
+            <!-- القسم العلوي (الدوائر) -->
+            <div class="notes-section">
+                <div class="note">
+                    <!-- استبدلت الصور بصور عشوائية للمعاينة، يمكنك إعادة المسارات الأصلية -->
+                    <img src="https://picsum.photos/seed/comp1/100/100" alt="competition">
+                    <div class="name">Competition</div>
+                </div>
+                <div class="note">
+                    <img src="https://picsum.photos/seed/comp2/100/100" alt="competition">
+                    <div class="name">Events</div>
+                </div>
+                <div class="note">
+                    <img src="https://picsum.photos/seed/comp3/100/100" alt="competition">
+                    <div class="name">Book Club</div>
+                </div>
+                <div class="note">
+                    <img src="https://picsum.photos/seed/comp4/100/100" alt="competition">
+                    <div class="name">Debate</div>
+                </div>
+                <div class="note">
+                    <img src="https://picsum.photos/seed/comp5/100/100" alt="competition">
+                    <div class="name">Study G</div>
+                </div>
+            </div>
+
+            <!-- قائمة المحادثات -->
+            <div class="chat-list">
+                <div class="chat-item">
+                    <div class="chat-left">
+                        <span class="name">Group 5 <span class="status-dot"></span></span>
+                        <span class="preview">Don't forget the meeting tomorrow...</span>
+                    </div>
+                    <div class="chat-right">
+                        <span class="time">18m ago</span>
+                        <span class="new-messages">4+</span>
+                    </div>
+                </div>
+
+                <div class="chat-item">
+                    <div class="chat-left">
+                        <span class="name">Study Group A</span>
+                        <span class="preview">Has anyone finished chapter 3?</span>
+                    </div>
+                    <div class="chat-right">
+                        <span class="time">1h ago</span>
+                        <span class="new-messages">12</span>
+                    </div>
+                </div>
+
+                <div class="chat-item">
+                    <div class="chat-left">
+                        <span class="name">Group 6</span>
+                        <span class="preview">Great discussion today!</span>
+                    </div>
+                    <div class="chat-right">
+                        <span class="time">27m ago</span>
+                        <span class="new-messages">1</span>
+                    </div>
+                </div>
+
+                <div class="chat-item">
+                    <div class="chat-left">
+                        <span class="name">Group 7</span>
+                        <span class="preview">Check out this new book.</span>
+                    </div>
+                    <div class="chat-right">
+                        <span class="time">3h ago</span>
+                        <span class="new-messages">4+</span>
+                    </div>
+                </div>
+
+                <div class="chat-item">
+                    <div class="chat-left">
+                        <span class="name">Group 8</span>
+                        <span class="preview">You missed the call.</span>
+                    </div>
+                    <div class="chat-right">
+                        <span class="time">Yesterday</span>
+                        <!-- لا يوجد رسائل جديدة -->
+                    </div>
+                </div>
+
+                <div class="chat-item">
+                    <div class="chat-left">
+                        <span class="name">Group 9</span>
+                        <span class="preview">Active today</span>
+                    </div>
+                    <div class="chat-right">
+                        <span class="time">Today</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2023 Bookify. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
