@@ -1,116 +1,651 @@
-<?php
-include 'nav.html';
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Rental Website</title>
-    <link rel="stylesheet" href="styles.css">
+    
+    <!-- استدعاء خطوط جوجل -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- ألوانك الأصلية --- */
+        :root {
+            --primary: #8B4513;       /* بني */
+            --accent: #c94b38;        /* أحمر محروق */
+            --bg-color: #fdefe2;      /* كريمي (خلفية الصفحة) */
+            --text: #333;             /* رمادي غامق للنصوص */
+            --white: #ffffff;
+        }
+
+        /* --- إعدادات عامة --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-padding {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        /* تطبيق لون العناوين الأصلي */
+        .section-header h2 {
+            font-size: 36px;
+            color: var(--accent);
+            background-color: var(--bg-color);
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 20px;
+            box-shadow: #333 0px 0px 20px; /* الظل الأصلي */
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: #6d360e; /* درجة أغمق قليلاً عند التحويم */
+            transform: translateY(-3px);
+        }
+
+        /* --- تصميم الناف بار (بالألوان الأصلية) --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background-color: var(--primary); /* لون الناف بار البني */
+            color: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links li a {
+            color: var(--white);
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .nav-links li a:hover {
+            color: #ffccbc; /* لون فاتح للتفاعل */
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            font-size: 14px;
+        }
+
+        .nav-btn.login {
+            background-color: var(--white);
+            color: var(--primary);
+        }
+
+        .nav-btn.signup {
+            border: 2px solid var(--white);
+            background: transparent;
+            color: var(--white);
+        }
+
+        .nav-btn.login:hover, .nav-btn.signup:hover {
+            opacity: 0.9;
+        }
+
+        /* --- Hero Section (تصميم وسط مع الخلفية الكريمية) --- */
+        .hero {
+            /* خلفية الصورة الأصلية */
+            background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://picsum.photos/seed/library_cover/1920/1080');
+            background-size: cover;
+            background-position: center;
+            height: 90vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .hero-content {
+            /* صندوق المحتوى باللون الكريمي والظل الأصلي */
+            position: relative;
+            background-color: var(--bg-color);
+            width: 100%;
+            max-width: 800px;
+            padding: 50px 30px;
+            border-radius: 20px;
+            box-shadow: #333 0px 0px 20px;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--accent); /* أحمر */
+        }
+
+        .hero-content p {
+            font-size: 24px;
+            margin-bottom: 40px;
+            color: var(--accent);
+        }
+
+        /* --- Stats Section (جديد بالألوان الأصلية) --- */
+        .stats {
+            margin-top: -50px;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .stat-item {
+            background-color: var(--white);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: #333 0px 0px 10px;
+            width: 200px;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 30px;
+            color: var(--primary);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+        }
+
+        .stat-item p {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        /* --- Cards (Books, Categories, Steps) --- */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            justify-content: center;
+        }
+
+        .card {
+            /* تصميم الكارت الأصلي */
+            background-color: var(--bg-color);
+            padding: 10px 10px 20px 10px;
+            border-radius: 20px;
+            box-shadow: #333 0px 0px 20px;
+            position: relative;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            color: var(--accent);
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .card p {
+            font-size: 16px;
+            color: var(--text);
+        }
+
+        .price-tag {
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 18px;
+            margin: 10px 0;
+            display: block;
+        }
+
+        /* --- Testimonials (جديد) --- */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background-color: var(--bg-color);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: #333 0px 0px 15px;
+            border: 2px solid var(--primary);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .client-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .client-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+        }
+
+        /* --- Newsletter (جديد) --- */
+        .newsletter {
+            background-color: var(--white);
+            padding: 60px 20px;
+            border-radius: 20px;
+            box-shadow: #333 0px 0px 10px;
+            text-align: center;
+            margin: 40px auto;
+            max-width: 800px;
+        }
+
+        .newsletter h2 {
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid var(--primary);
+            outline: none;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #444;
+            padding-bottom: 30px;
+            margin-bottom: 20px;
+        }
+
+        .footer-section {
+            width: 30%;
+            min-width: 250px;
+            margin-bottom: 20px;
+        }
+
+        .footer-section h3 {
+            color: var(--white);
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--accent);
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul li a {
+            color: #ccc;
+            transition: color 0.3s;
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--accent);
+        }
+
+        .social-icons a {
+            display: inline-block;
+            margin-right: 15px;
+            color: white;
+            font-size: 18px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            font-size: 14px;
+            color: #888;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 15px;
+            }
+            .nav-links {
+                margin: 15px 0;
+                gap: 15px;
+            }
+            .hero-content h1 {
+                font-size: 32px;
+            }
+            .stats {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Header -->
-   
+
+    <!-- Navbar (باللون البني الأصلي) -->
+    <nav class="navbar">
+        <div class="logo">Bookify</div>
+        <ul class="nav-links">
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#featured-books">Books</a></li>
+            <li><a href="#categories">Categories</a></li>
+            <li><a href="#testimonials">Reviews</a></li>
+        </ul>
+        <div class="nav-actions">
+            <button class="nav-btn login">Login</button>
+            <button class="nav-btn signup">Sign Up</button>
+        </div>
+    </nav>
 
     <!-- Hero Section -->
-    <section class="hero">
-        <!-- <img src="./cover.avif" alt="" style="z-index: 0;"> -->
+    <section id="hero" class="hero">
         <div class="hero-content">
             <h1>Rent Your Favorite Books Easily!</h1>
             <p>Discover a wide range of books and rent them in simple steps.</p>
-            <button><a href="./renting.php">Start Renting</a></button>
+            <button class="btn btn-primary"><a href="#featured-books" style="color: white; text-decoration: none;">Start Renting</a></button>
         </div>
     </section>
 
-    <!-- Featured Books Section -->
-    <section class="featured-books">
-        <h2 >Most Rented Books</h2>
-        <div class="books-grid">
-            <div class="book">
-                <img src="book1.jpg" alt="Book 1">
-                <h3>Book Title 1</h3>
-                <p>Author: Author 1</p>
-                <p>Rental Price: $10</p>
+    <!-- Stats Section (جديد) -->
+    <div class="container">
+        <section class="stats">
+            <div class="stat-item">
+                <h3>10k+</h3>
+                <p>Books</p>
             </div>
-            <div class="book">
-                <img src="book2.jpg" alt="Book 2">
-                <h3>Book Title 2</h3>
-                <p>Author: Author 2</p>
-                <p>Rental Price: $15</p>
+            <div class="stat-item">
+                <h3>5k+</h3>
+                <p>Users</p>
             </div>
-            <!-- Add more books here -->
-        </div>
-        <button>View All</button>
-    </section>
+            <div class="stat-item">
+                <h3>50+</h3>
+                <p>Categories</p>
+            </div>
+            <div class="stat-item">
+                <h3>24/7</h3>
+                <p>Support</p>
+            </div>
+        </section>
+    </div>
 
-    <!-- Categories Section -->
-    <section class="categories">
-        <h2>Browse by Category</h2>
-        <div class="categories-grid">
-            <div class="category">
-                <img src="novels.jpg" alt="Novels">
-                <h3>Novels</h3>
+    <!-- Featured Books -->
+    <section id="featured-books" class="section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h2>Most Rented Books</h2>
             </div>
-            <div class="category">
-                <img src="science.jpg" alt="Science Books">
-                <h3>Science</h3>
+            <div class="grid-layout">
+                <div class="card">
+                    <img src="https://picsum.photos/seed/book1/300/450" alt="Book 1">
+                    <h3>The Great Adventure</h3>
+                    <p>Author: John Doe</p>
+                    <span class="price-tag">Rental Price: $10</span>
+                </div>
+                <div class="card">
+                    <img src="https://picsum.photos/seed/book2/300/450" alt="Book 2">
+                    <h3>Science Secrets</h3>
+                    <p>Author: Jane Smith</p>
+                    <span class="price-tag">Rental Price: $15</span>
+                </div>
+                <div class="card">
+                    <img src="https://picsum.photos/seed/book3/300/450" alt="Book 3">
+                    <h3>History Times</h3>
+                    <p>Author: Mark Lee</p>
+                    <span class="price-tag">Rental Price: $12</span>
+                </div>
             </div>
-            <!-- Add more categories here -->
-        </div>
-        <button>View All</button>
-    </section>
-
-    <!-- How It Works Section -->
-    <section class="how-it-works">
-        <h2>How It Works</h2>
-        <div class="steps">
-            <div class="step">
-                <img src="choose.png" alt="Choose Book">
-                <h3>Choose a Book</h3>
-                <p>Browse our library and select your favorite book.</p>
-            </div>
-            <div class="step">
-                <img src="confirm.png" alt="Confirm Rental">
-                <h3>Confirm Rental</h3>
-                <p>Complete the rental process in simple steps.</p>
-            </div>
-            <div class="step">
-                <img src="enjoy.png" alt="Enjoy Reading">
-                <h3>Enjoy Reading</h3>
-                <p>Receive the book and enjoy reading it.</p>
+            <div style="text-align: center; margin-top: 40px;">
+                <button class="btn btn-primary">View All</button>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Available Books</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                </ul>
+    <!-- Categories -->
+    <section id="categories" class="section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h2>Browse by Category</h2>
             </div>
-            <div class="footer-section">
-                <h3>Contact Us</h3>
-                <p>Email: info@bookify.com</p>
-                <p>Phone: 0123456789</p>
+            <div class="grid-layout">
+                <div class="card">
+                    <img src="https://picsum.photos/seed/novels/300/200" alt="Novels">
+                    <h3>Novels</h3>
+                </div>
+                <div class="card">
+                    <img src="https://picsum.photos/seed/science/300/200" alt="Science">
+                    <h3>Science</h3>
+                </div>
+                <div class="card">
+                    <img src="https://picsum.photos/seed/history/300/200" alt="History">
+                    <h3>History</h3>
+                </div>
             </div>
-            <div class="footer-section">
-                <h3>Follow Us</h3>
-                <div class="social-icons">
-                    <a href="#"><img src="facebook.png" alt="Facebook"></a>
-                    <a href="#"><img src="twitter.png" alt="Twitter"></a>
-                    <a href="#"><img src="instagram.png" alt="Instagram"></a>
+            <div style="text-align: center; margin-top: 40px;">
+                <button class="btn btn-primary">View All</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h2>How It Works</h2>
+            </div>
+            <div class="grid-layout">
+                <div class="card">
+                    <img src="https://picsum.photos/seed/choose/150/150" alt="Choose" style="width: 80px; height: 80px; margin: 0 auto; border-radius: 50%;">
+                    <h3>Choose a Book</h3>
+                    <p>Browse our library and select your favorite book.</p>
+                </div>
+                <div class="card">
+                    <img src="https://picsum.photos/seed/confirm/150/150" alt="Confirm" style="width: 80px; height: 80px; margin: 0 auto; border-radius: 50%;">
+                    <h3>Confirm Rental</h3>
+                    <p>Complete the rental process in simple steps.</p>
+                </div>
+                <div class="card">
+                    <img src="https://picsum.photos/seed/enjoy/150/150" alt="Enjoy" style="width: 80px; height: 80px; margin: 0 auto; border-radius: 50%;">
+                    <h3>Enjoy Reading</h3>
+                    <p>Receive the book and enjoy reading it.</p>
                 </div>
             </div>
         </div>
-        <div class="footer-bottom">
-            &copy; 2023 Bookify. All rights reserved.
+    </section>
+
+    <!-- Testimonials (جديد) -->
+    <section id="testimonials" class="section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h2>What Readers Say</h2>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Amazing service! I saved so much money renting books instead of buying them."</p>
+                    <div class="client-info">
+                        <img src="https://picsum.photos/seed/user1/50/50" alt="User" class="client-img">
+                        <div>
+                            <strong style="color: var(--primary);">Sarah Jenkins</strong><br>
+                            <small>Avid Reader</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Fast delivery and the books are always in great condition. Highly recommended!"</p>
+                    <div class="client-info">
+                        <img src="https://picsum.photos/seed/user2/50/50" alt="User" class="client-img">
+                        <div>
+                            <strong style="color: var(--primary);">Michael Chen</strong><br>
+                            <small>Student</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Love the variety of categories available. There is always something new to read."</p>
+                    <div class="client-info">
+                        <img src="https://picsum.photos/seed/user3/50/50" alt="User" class="client-img">
+                        <div>
+                            <strong style="color: var(--primary);">Emily Davis</strong><br>
+                            <small>Book Lover</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter (جديد) -->
+    <div class="container">
+        <section class="newsletter">
+            <h2>Stay Updated</h2>
+            <p>Subscribe to get updates on new arrivals.</p>
+            <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Thanks!');">
+                <input type="email" class="newsletter-input" placeholder="Your Email" required>
+                <button type="submit" class="btn btn-primary">Subscribe</button>
+            </form>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#hero">Home</a></li>
+                        <li><a href="#featured-books">Available Books</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <p>Email: info@bookify.com</p>
+                    <p>Phone: 0123456789</p>
+                    <p>Address: 123 Library St</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-icons">
+                        <a href="#">Facebook</a>
+                        <a href="#">Twitter</a>
+                        <a href="#">Instagram</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2023 Bookify. All rights reserved.
+            </div>
         </div>
     </footer>
+
 </body>
 </html>
