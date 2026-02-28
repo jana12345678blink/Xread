@@ -60,7 +60,7 @@
         }
 
         /* =========================================
-           START: Navbar Design (المضبوط)
+           START: Navbar Design (التصميم الموحد)
            ========================================= */
         .navbar {
             display: flex;
@@ -69,18 +69,18 @@
             padding: 15px 5%;
             background-color: var(--primary);
             color: var(--white);
-            position: sticky; /* ثبات في الأعلى */
+            position: sticky;
             top: 0;
             z-index: 1000;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            height: 70px; /* ارتفاع ثابت */
+            height: 70px;
         }
 
         .logo {
             font-size: 24px;
             font-weight: bold;
             font-family: 'Playfair Display', serif;
-            z-index: 1001; /* ليكون فوق القائمة المنسدلة */
+            z-index: 1001;
             cursor: pointer;
         }
 
@@ -103,7 +103,7 @@
             color: #ffccbc;
         }
 
-        /* تأثير خط تحت الرابط عند التحويم */
+        /* تأثير خط تحت الرابط */
         .nav-links li a::after {
             content: '';
             position: absolute;
@@ -118,45 +118,43 @@
             width: 100%;
         }
 
-        /* أزرار الدخول */
+        /* حاوية الأيقونات في الجهة اليمنى */
         .nav-actions {
             display: flex;
-            gap: 10px;
-            z-index: 1001;
+            align-items: center;
+            gap: 20px;
+            z-index: 1002;
         }
 
-        .nav-btn {
-            padding: 8px 20px;
-            border-radius: 20px;
+        /* --- زر النقاط الثلاث (Settings) --- */
+        .settings-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 18px;
+            width: 20px;
             cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
-            border: none;
-            font-size: 14px;
-            white-space: nowrap;
+            transition: opacity 0.3s;
         }
 
-        .nav-btn.login {
+        .settings-icon:hover {
+            opacity: 0.8;
+        }
+
+        .settings-icon .dot {
+            width: 5px;
+            height: 5px;
             background-color: var(--white);
-            color: var(--primary);
+            border-radius: 50%;
+            display: block;
+            margin: 0 auto;
         }
 
-        .nav-btn.signup {
-            border: 2px solid var(--white);
-            background: transparent;
-            color: var(--white);
-        }
-        
-        .nav-btn:hover {
-            transform: translateY(-2px);
-            opacity: 0.9;
-        }
-
-        /* زر الهمبرغر (للموبايل) */
+        /* --- زر الهامبرغر (للموبايل) --- */
         .hamburger {
             display: none;
             cursor: pointer;
-            z-index: 1002; /* الأعلى */
+            z-index: 1002;
         }
 
         .bar {
@@ -173,66 +171,43 @@
            Media Queries (تجاوب الموبايل)
            ========================================= */
         @media (max-width: 768px) {
-            /* إظهار زر الهمبرغر */
             .hamburger {
                 display: block;
             }
 
-            /* إخفاء الروابط والأزرار الأساسية */
             .nav-links {
                 position: fixed;
-                left: -100%; /* مخفية خارج الشاشة */
+                left: -100%;
                 top: 0;
                 flex-direction: column;
                 background-color: var(--primary);
-                width: 100%; /* عرض كامل */
-                height: 100vh; /* ارتفاع كامل */
+                width: 100%;
+                height: 100vh;
                 text-align: center;
                 transition: 0.4s;
-                padding-top: 100px; /* مسافة للأعلى */
-                box-shadow: 0 10px 27px rgba(0,0,0,0.05);
+                padding-top: 100px;
                 gap: 25px;
             }
 
-            /* إظهار القائمة عند التفعيل */
             .nav-links.active {
                 left: 0;
             }
 
-            /* إخفاء أزرار الدخول الجانبية في الشاشة الكبيرة */
             .nav-actions {
-                display: none;
+                display: flex;
             }
 
-            /* تحويل أيقونة الهمبرغر إلى X */
-            .hamburger.active .bar:nth-child(2) {
-                opacity: 0;
-            }
-            .hamburger.active .bar:nth-child(1) {
-                transform: translateY(8px) rotate(45deg);
-            }
-            .hamburger.active .bar:nth-child(3) {
-                transform: translateY(-8px) rotate(-45deg);
-            }
-
-            /* إظهار أزرار الدخول داخل القائمة المنسدلة */
-            .mobile-only {
-                display: block;
-                margin-top: 20px;
-            }
-        }
-        
-        /* إخفاء عناصر الموبايل في الشاشات الكبيرة */
-        @media (min-width: 769px) {
-            .mobile-only {
-                display: none;
-            }
+            /* تأثير تحويل الهمبرغر إلى X */
+            .hamburger.active .bar:nth-child(2) { opacity: 0; }
+            .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
         }
         /* =========================================
            END: Navbar Design
            ========================================= */
 
-        /* --- باقي تصميم الصفحة (للمحافظة على الشكل) --- */
+
+        /* --- باقي تصميم الصفحة --- */
         .section-header {
             text-align: center;
             margin: 50px 0 30px;
@@ -382,38 +357,31 @@
 </head>
 <body>
 
-    <!-- Navbar (مضبوط ومتجاوب) -->
+    <!-- Navbar (مطابق للتصميم الجديد) -->
     <nav class="navbar">
-        <!-- اللوجو -->
         <div class="logo">Bookify</div>
         
-        <!-- زر القائمة للموبايل -->
-        <div class="hamburger">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-        </div>
-
-        <!-- الروابط -->
-        <ul class="nav-links">
+        <ul class="nav-links" id="navLinks">
             <li><a href="index.html">Home</a></li>
             <li><a href="renting.html">Rent Books</a></li>
             <li><a href="buying.html">Buy Books</a></li>
             <li><a href="community.html">Community</a></li>
-            
-            <!-- هذه الأزرار تظهر فقط داخل القائمة في الموبايل -->
-            <li class="mobile-only">
-                <button class="nav-btn login" style="width: 100%;">Login</button>
-            </li>
-            <li class="mobile-only">
-                <button class="nav-btn signup" style="width: 100%;">Sign Up</button>
-            </li>
         </ul>
 
-        <!-- الأزرار الجانبية (تظهر في الشاشات الكبيرة فقط) -->
         <div class="nav-actions">
-            <button class="nav-btn login">Login</button>
-            <button class="nav-btn signup">Sign Up</button>
+            <!-- زر النقاط الثلاث (Settings) -->
+            <a href="settings.html" class="settings-icon" title="Settings">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </a>
+
+            <!-- زر الهامبرغر للموبايل -->
+            <div class="hamburger" id="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
         </div>
     </nav>
 
@@ -472,21 +440,23 @@
         </div>
     </footer>
 
-    <!-- سكريبت لتشغيل القائمة -->
+    <!-- JavaScript لتشغيل القائمة -->
     <script>
-        const hamburger = document.querySelector(".hamburger");
-        const navLinks = document.querySelector(".nav-links");
+        const hamburger = document.getElementById("hamburger");
+        const navLinks = document.getElementById("navLinks");
 
         hamburger.addEventListener("click", () => {
-            navLinks.classList.toggle("active");
             hamburger.classList.toggle("active");
+            navLinks.classList.toggle("active");
         });
 
         // إغلاق القائمة عند الضغط على أي رابط
-        document.querySelectorAll(".nav-links li a, .nav-links li button").forEach(n => n.addEventListener("click", () => {
-            navLinks.classList.remove("active");
-            hamburger.classList.remove("active");
-        }));
+        document.querySelectorAll(".nav-links a").forEach(link => {
+            link.addEventListener("click", () => {
+                hamburger.classList.remove("active");
+                navLinks.classList.remove("active");
+            });
+        });
     </script>
 
 </body>
