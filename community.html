@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Community Page</title>
+    <title>Community Page - Bookify</title>
     
     <!-- استدعاء الخطوط -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -54,66 +54,152 @@
             list-style: none;
         }
 
-        /* --- تصميم الناف بار (نفسه) --- */
+        /* =========================================
+           START: Navbar Design (التصميم الموحد)
+           ========================================= */
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 5%;
+            padding: 15px 5%;
             background-color: var(--primary);
             color: var(--white);
             position: sticky;
             top: 0;
             z-index: 1000;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            height: 70px;
         }
 
         .logo {
             font-size: 24px;
             font-weight: bold;
             font-family: 'Playfair Display', serif;
+            z-index: 1001;
+            cursor: pointer;
         }
 
+        /* الروابط */
         .nav-links {
             display: flex;
-            gap: 25px;
+            gap: 30px;
+            align-items: center;
         }
 
         .nav-links li a {
             color: var(--white);
             font-size: 16px;
             transition: color 0.3s;
+            font-weight: 500;
+            position: relative;
         }
 
         .nav-links li a:hover {
             color: #ffccbc;
         }
 
+        /* تأثير خط تحت الرابط */
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s;
+        }
+        .nav-links li a:hover::after {
+            width: 100%;
+        }
+
+        /* حاوية الأيقونات في الجهة اليمنى */
         .nav-actions {
             display: flex;
-            gap: 10px;
+            align-items: center;
+            gap: 20px;
+            z-index: 1002;
         }
 
-        .nav-btn {
-            padding: 10px 20px;
-            border-radius: 20px;
+        /* --- زر النقاط الثلاث (Settings) --- */
+        .settings-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 18px;
+            width: 20px;
             cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
-            border: none;
-            font-size: 14px;
+            transition: opacity 0.3s;
         }
 
-        .nav-btn.login {
+        .settings-icon:hover {
+            opacity: 0.8;
+        }
+
+        .settings-icon .dot {
+            width: 5px;
+            height: 5px;
             background-color: var(--white);
-            color: var(--primary);
+            border-radius: 50%;
+            display: block;
+            margin: 0 auto;
         }
 
-        .nav-btn.signup {
-            border: 2px solid var(--white);
-            background: transparent;
-            color: var(--white);
+        /* --- زر الهامبرغر (للموبايل) --- */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1002;
         }
+
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: var(--white);
+            transition: all 0.3s ease-in-out;
+            border-radius: 2px;
+        }
+
+        /* =========================================
+           Media Queries (تجاوب الموبايل)
+           ========================================= */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                left: -100%;
+                top: 0;
+                flex-direction: column;
+                background-color: var(--primary);
+                width: 100%;
+                height: 100vh;
+                text-align: center;
+                transition: 0.4s;
+                padding-top: 100px;
+                gap: 25px;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-actions {
+                display: flex;
+            }
+
+            /* تأثير تحويل الهمبرغر إلى X */
+            .hamburger.active .bar:nth-child(2) { opacity: 0; }
+            .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+        }
+        /* =========================================
+           END: Navbar Design
+           ========================================= */
 
         /* --- تصميم المحتوى الرئيسي (Community Container) --- */
         .main-wrapper {
@@ -279,38 +365,35 @@
             text-align: center;
             margin-top: auto;
         }
-
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                padding: 15px;
-            }
-            .nav-links {
-                margin: 15px 0;
-            }
-            .chat-item {
-                padding: 15px 20px;
-            }
-            .chat-item .name {
-                font-size: 16px;
-            }
-        }
     </style>
 </head>
 <body>
 
-    <!-- Navbar (نفسه) -->
+    <!-- Navbar (مطابق للتصميم الجديد) -->
     <nav class="navbar">
         <div class="logo">Bookify</div>
-        <ul class="nav-links">
+        
+        <ul class="nav-links" id="navLinks">
             <li><a href="index.html">Home</a></li>
             <li><a href="renting.html">Rent Books</a></li>
+            <li><a href="buying.html">Buy Books</a></li>
             <li><a href="#" style="color: #ffccbc;">Community</a></li>
-            <li><a href="index.html#how-it-works">How It Works</a></li>
         </ul>
+
         <div class="nav-actions">
-            <button class="nav-btn login">Login</button>
-            <button class="nav-btn signup">Sign Up</button>
+            <!-- زر النقاط الثلاث (Settings) -->
+            <a href="settings.html" class="settings-icon" title="Settings">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </a>
+
+            <!-- زر الهامبرغر للموبايل -->
+            <div class="hamburger" id="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
         </div>
     </nav>
 
@@ -324,7 +407,6 @@
             <!-- القسم العلوي (الدوائر) -->
             <div class="notes-section">
                 <div class="note">
-                    <!-- استبدلت الصور بصور عشوائية للمعاينة، يمكنك إعادة المسارات الأصلية -->
                     <img src="https://picsum.photos/seed/comp1/100/100" alt="competition">
                     <div class="name">Competition</div>
                 </div>
@@ -420,6 +502,25 @@
     <footer>
         <p>&copy; 2023 Bookify. All rights reserved.</p>
     </footer>
+
+    <!-- JavaScript لتشغيل القائمة -->
+    <script>
+        const hamburger = document.getElementById("hamburger");
+        const navLinks = document.getElementById("navLinks");
+
+        hamburger.addEventListener("click", () => {
+            hamburger.classList.toggle("active");
+            navLinks.classList.toggle("active");
+        });
+
+        // إغلاق القائمة عند الضغط على أي رابط
+        document.querySelectorAll(".nav-links a").forEach(link => {
+            link.addEventListener("click", () => {
+                hamburger.classList.remove("active");
+                navLinks.classList.remove("active");
+            });
+        });
+    </script>
 
 </body>
 </html>
